@@ -18,7 +18,7 @@ export default function Index() {
   function hostMeeting() {
     if (!session)
       signIn(null, {
-        callbackUrl: "http://localhost:3000/HostMeeting",
+        callbackUrl: "https://connect-plus-daily.vercel.app/HostMeeting",
       });
     else router.push("/HostMeeting");
   }
