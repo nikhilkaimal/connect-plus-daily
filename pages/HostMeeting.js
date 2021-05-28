@@ -29,17 +29,12 @@ export default function HostMeeting() {
   const [expandProfile, setExpandProfile] = useState(false);
 
   useEffect(() => {
-    if (!(session || loading)) router.push("/");
     // console.log("showCall", showCall);
     // console.log("roomUrl", roomUrl);
     // console.log("session", session);
     // console.log("loading", loading);
-    // if (!showCall && roomUrl === null && (session === null) & !loading) {
-    //   console.log("condition satisfied");
-    //   router.push("/");
-    // }
-    // if (!showCall && roomUrl === null && session && !loading)
-    //   router.push("/");
+    if (!showCall && roomUrl === null && (session === null) & !loading)
+      router.push("/");
   });
 
   function toggleProfile() {
@@ -320,6 +315,7 @@ export default function HostMeeting() {
                     onClick={() =>
                       signOut({
                         callbackUrl: "https://connect-plus-daily.vercel.app",
+                        // callbackUrl: "/",
                       })
                     }
                   >

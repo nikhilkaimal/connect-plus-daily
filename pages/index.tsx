@@ -10,15 +10,11 @@ export default function Index() {
   const [session, loading] = useSession();
   const router = useRouter();
 
-  useEffect(() => {
-    // if (session) router.push("/Home");
-    // console.log('reached here')
-  });
-
   function hostMeeting() {
-    if (!session)
+    if (!(session || loading))
       signIn(null, {
         callbackUrl: "https://connect-plus-daily.vercel.app/HostMeeting",
+        // callbackUrl: "http://localhost:3000/HostMeeting",
       });
     else router.push("/HostMeeting");
   }
