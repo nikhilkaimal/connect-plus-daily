@@ -316,7 +316,11 @@ export default function HostMeeting() {
                 <div className="border border-blue-500 rounded-b-lg">
                   <button
                     className="btn"
-                    onClick={() => signOut({ callbackUrl: "/" })}
+                    onClick={() =>
+                      signOut({
+                        callbackUrl: "https://connect-plus-daily.vercel.app",
+                      })
+                    }
                   >
                     Sign Out
                   </button>
