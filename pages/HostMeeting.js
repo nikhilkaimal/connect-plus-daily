@@ -236,7 +236,7 @@ export default function HostMeeting() {
 
   return (
     <div className="app">
-      {showCall && ( // NOTE: for an app this size, it's not obvious that using a Context
+      {showCall ? ( // NOTE: for an app this size, it's not obvious that using a Context
         // is the best choice. But for larger apps with deeply-nested components
         // that want to access call object state and bind event listeners to the
         // call object, this can be a helpful pattern.
@@ -247,8 +247,7 @@ export default function HostMeeting() {
             onClickLeaveCall={startLeavingCall}
           />
         </CallObjectContext.Provider>
-      )}
-      {session && (
+      ) : (
         <div className="p-5 h-screen relative">
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 space-y-6">
             <div className="grid justify-items-center gap-6">
