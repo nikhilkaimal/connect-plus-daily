@@ -29,6 +29,7 @@ export default function HostMeeting() {
   const [expandProfile, setExpandProfile] = useState(false);
 
   useEffect(() => {
+    if (!(session || loading)) router.push("/");
     // console.log("showCall", showCall);
     // console.log("roomUrl", roomUrl);
     // console.log("session", session);
