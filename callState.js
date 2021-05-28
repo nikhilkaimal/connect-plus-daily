@@ -26,28 +26,28 @@ const initialCallState = {
  * CLICK_ALLOW_TIMEOUT action structure:
  * - type: string
  */
-const CLICK_ALLOW_TIMEOUT = 'CLICK_ALLOW_TIMEOUT';
+const CLICK_ALLOW_TIMEOUT = "CLICK_ALLOW_TIMEOUT";
 
 /**
  * PARTICIPANTS_CHANGE action structure:
  * - type: string
  * - participants: Object (from Daily callObject.participants())
  */
-const PARTICIPANTS_CHANGE = 'PARTICIPANTS_CHANGE';
+const PARTICIPANTS_CHANGE = "PARTICIPANTS_CHANGE";
 
 /**
  * CAM_OR_MIC_ERROR action structure:
  * - type: string
  * - message: string
  */
-const CAM_OR_MIC_ERROR = 'CAM_OR_MIC_ERROR';
+const CAM_OR_MIC_ERROR = "CAM_OR_MIC_ERROR";
 
 /**
  * CAM_OR_MIC_ERROR action structure:
  * - type: string
  * - message: string
  */
-const FATAL_ERROR = 'FATAL_ERROR';
+const FATAL_ERROR = "FATAL_ERROR";
 
 // --- Reducer and helpers --
 
@@ -74,7 +74,7 @@ function callReducer(callState, action) {
 }
 
 function getLocalCallItem(callItems) {
-  return callItems['local'];
+  return callItems["local"];
 }
 
 function getCallItems(participants) {
@@ -85,7 +85,7 @@ function getCallItems(participants) {
       audioTrackState: participant.tracks.audio,
     };
     if (shouldIncludeScreenCallItem(participant)) {
-      callItems[id + '-screen'] = {
+      callItems[id + "-screen"] = {
         videoTrackState: participant.tracks.screenVideo,
         audioTrackState: participant.tracks.screenAudio,
       };
@@ -95,7 +95,7 @@ function getCallItems(participants) {
 }
 
 function shouldIncludeScreenCallItem(participant) {
-  const trackStatesForInclusion = ['loading', 'playable', 'interrupted'];
+  const trackStatesForInclusion = ["loading", "playable", "interrupted"];
   return (
     trackStatesForInclusion.includes(participant.tracks.screenVideo.state) ||
     trackStatesForInclusion.includes(participant.tracks.screenAudio.state)
@@ -106,11 +106,11 @@ function shouldIncludeScreenCallItem(participant) {
 
 // True if id corresponds to local participant (*not* their screen share)
 function isLocal(id) {
-  return id === 'local';
+  return id === "local";
 }
 
 function isScreenShare(id) {
-  return id.endsWith('-screen');
+  return id.endsWith("-screen");
 }
 
 function containsScreenShare(callItems) {
@@ -133,13 +133,16 @@ function getMessage(callState) {
   } else if (callState.camOrMicError) {
     header = `Camera or mic access error: ${callState.camOrMicError}`;
     detail =
-      'See https://help.daily.co/en/articles/2528184-unblock-camera-mic-access-on-a-computer to troubleshoot.';
+      "See https://help.daily.co/en/articles/2528184-unblock-camera-mic-access-on-a-computer to troubleshoot.";
     isError = true;
   } else if (shouldShowClickAllow()) {
     header = 'Click "Allow" to enable camera and mic access';
   } else if (Object.keys(callState.callItems).length === 1) {
     header = "Copy and share this page's URL to invite others";
-    detail = window.location.href;
+    if (typeof window !== "undefined") {
+      // browser code
+      detail = window.location.href;
+    }
   }
   return header || detail ? { header, detail, isError } : null;
 }

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from "react";
 // import './Tray.css';
 import TrayButton, {
   TYPE_MUTE_CAMERA,
@@ -6,11 +6,11 @@ import TrayButton, {
   TYPE_SCREEN,
   TYPE_LEAVE,
   TYPE_CHAT,
-} from './TrayButton';
-import Chat from './Chat';
-import CallObjectContext from '../context/CallObjectContext';
-import { logDailyEvent } from '../utils/logUtils';
-import DailyIframe from '@daily-co/daily-js';
+} from "./TrayButton";
+import Chat from "../pages/Chat";
+import CallObjectContext from "../context/CallObjectContext";
+import { logDailyEvent } from "../utils/logUtils";
+import DailyIframe from "@daily-co/daily-js";
 
 /**
  * Gets [isCameraMuted, isMicMuted, isSharingScreen].
@@ -85,9 +85,8 @@ export default function Tray(props) {
 
     function handleNewParticipantsState(event) {
       event && logDailyEvent(event);
-      const [isCameraMuted, isMicMuted, isSharingScreen] = getStreamStates(
-        callObject
-      );
+      const [isCameraMuted, isMicMuted, isSharingScreen] =
+        getStreamStates(callObject);
       setCameraMuted(isCameraMuted);
       setMicMuted(isMicMuted);
       setSharingScreen(isSharingScreen);
@@ -97,11 +96,11 @@ export default function Tray(props) {
     handleNewParticipantsState();
 
     // Listen for changes in state
-    callObject.on('participant-updated', handleNewParticipantsState);
+    callObject.on("participant-updated", handleNewParticipantsState);
 
     // Stop listening for changes in state
     return function cleanup() {
-      callObject.off('participant-updated', handleNewParticipantsState);
+      callObject.off("participant-updated", handleNewParticipantsState);
     };
   }, [callObject]);
 

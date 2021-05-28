@@ -4,7 +4,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import Call from "./Call";
 import StartButton from "./StartButton";
 import api from "./api/meeting";
-import Tray from "./Tray";
+import Tray from "../components/Tray";
 import CallObjectContext from "../context/CallObjectContext";
 import { roomUrlFromPageUrl, pageUrlFromRoomUrl } from "../utils/urlUtils";
 import DailyIframe from "@daily-co/daily-js";
