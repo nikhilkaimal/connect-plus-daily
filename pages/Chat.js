@@ -1,8 +1,10 @@
 import React, { useContext, useState, useEffect } from "react";
 import CallObjectContext from "../context/CallObjectContext";
-// import './Chat.css';
+import { useSession } from "next-auth/client";
 
 export default function Chat(props) {
+  const [session] = useSession();
+
   const callObject = useContext(CallObjectContext);
   const [inputValue, setInputValue] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
@@ -14,7 +16,9 @@ export default function Chat(props) {
   function handleSubmit(event) {
     event.preventDefault();
     callObject.sendAppMessage({ message: inputValue }, "*");
-    const name = callObject.participants().local.user_name
+    const name = session
+      ? session.user.name
+      : callObject.participants().local.user_name
       ? callObject.participants().local.user_name
       : "Guest";
     setChatHistory([
@@ -38,7 +42,9 @@ export default function Chat(props) {
 
     function handleAppMessage(event) {
       const participants = callObject.participants();
-      const name = participants[event.fromId].user_name
+      const name = session
+        ? session.user.name
+        : participants[event.fromId].user_name
         ? participants[event.fromId].user_name
         : "Guest";
       setChatHistory([
