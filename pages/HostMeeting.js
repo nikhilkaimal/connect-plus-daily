@@ -27,14 +27,20 @@ export default function HostMeeting() {
   const [callObject, setCallObject] = useState(null);
   const [meetingName, setMeetingName] = useState("");
   const [expandProfile, setExpandProfile] = useState(false);
+  let [callbackUrl, setCallbackUrl] = useState("");
 
   useEffect(() => {
-    // console.log("showCall", showCall);
-    // console.log("roomUrl", roomUrl);
-    // console.log("session", session);
-    // console.log("loading", loading);
-    if (!showCall && roomUrl === null && (session === null) & !loading)
-      router.push("/");
+    console.log("----------");
+    console.log("showCall", showCall);
+    console.log("roomUrl", roomUrl);
+    console.log("session", session);
+    console.log("loading", loading);
+    console.log("----------");
+    if (process.env.phase === "local") setCallbackUrl("http://localhost:3000");
+    else setCallbackUrl("https://connect-plus-daily.vercel.app");
+
+    // if (!showCall && roomUrl === null && session === null && !loading)
+    //   router.push("/");
   });
 
   function toggleProfile() {
@@ -314,8 +320,7 @@ export default function HostMeeting() {
                     className="btn"
                     onClick={() =>
                       signOut({
-                        callbackUrl: "https://connect-plus-daily.vercel.app",
-                        // callbackUrl: "/",
+                        callbackUrl,
                       })
                     }
                   >

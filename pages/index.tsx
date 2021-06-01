@@ -3,20 +3,27 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import Head from "next/head";
 import Link from "next/link";
+import { useState } from "react";
 
 import styles from "../styles/Home.module.css";
 
 export default function Index() {
   const [session, loading] = useSession();
   const router = useRouter();
+  let [callbackUrl, setCallbackUrl] = useState("");
+
+  useEffect(() => {
+    if (process.env.phase === "local")
+      setCallbackUrl("http://localhost:3000/HostMeeting");
+    else setCallbackUrl("https://connect-plus-daily.vercel.app/HostMeeting");
+  });
 
   function hostMeeting() {
-    if (!(session || loading))
+    if (!(session || loading)) {
       signIn(null, {
-        callbackUrl: "https://connect-plus-daily.vercel.app/HostMeeting",
-        // callbackUrl: "http://localhost:3000/HostMeeting",
+        callbackUrl,
       });
-    else router.push("/HostMeeting");
+    } else router.push("/HostMeeting");
   }
 
   return (
