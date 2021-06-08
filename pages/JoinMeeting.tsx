@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
-import Link from "next/link";
 
 export default function JoinMeeting() {
-  const [meetingUrl, setMeetingUrl] = useState("");
   const router = useRouter();
+  const [meetingUrl, setMeetingUrl] = useState("");
 
   function joinMeeting() {
     router.push(meetingUrl);

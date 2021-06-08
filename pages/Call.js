@@ -1,5 +1,4 @@
 import React, { useEffect, useContext, useReducer, useCallback } from "react";
-// import './Call.css';
 import Tile from "./Tile";
 import CallObjectContext from "../context/CallObjectContext";
 import CallMessage from "./CallMessage";

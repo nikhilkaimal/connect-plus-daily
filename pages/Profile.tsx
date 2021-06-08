@@ -1,5 +1,5 @@
-import { UserIcon } from "@heroicons/react/outline";
 import { useSession } from "next-auth/client";
+import { UserIcon } from "@heroicons/react/outline";
 
 export default function Profile() {
   const [session] = useSession();

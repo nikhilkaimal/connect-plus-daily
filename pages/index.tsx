@@ -1,22 +1,21 @@
 import { useSession, signIn } from "next-auth/client";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import Head from "next/head";
 import Link from "next/link";
-import { useState } from "react";
 
 import styles from "../styles/Home.module.css";
 
 export default function Index() {
+  let [callbackUrl, setCallbackUrl] = useState("");
   const [session, loading] = useSession();
   const router = useRouter();
-  let [callbackUrl, setCallbackUrl] = useState("");
 
   useEffect(() => {
     if (process.env.phase === "local")
       setCallbackUrl("http://localhost:3000/HostMeeting");
     else setCallbackUrl("https://connect-plus-daily.vercel.app/HostMeeting");
-  });
+  }, [process.env.phase]);
 
   function hostMeeting() {
     if (!(session || loading)) {
@@ -28,15 +27,14 @@ export default function Index() {
 
   return (
     <>
-      {/* {!(session || loading) && ( */}
       <div className={styles.container}>
         <Head>
-          <title>Connect+</title>
+          <title>ConnectPlus</title>
           <link rel="icon" href="/favicon.ico" />
         </Head>
 
         <main className={styles.main}>
-          <h1 className={styles.title}>CONNECT+</h1>
+          <h1 className={styles.title}>ConnectPlus</h1>
 
           <div className="w-full p-2 mt-10">
             <Link href="/JoinMeeting">
@@ -51,26 +49,6 @@ export default function Index() {
             >
               Host a Meeting
             </button>
-
-            {/* <div className="flex">
-                <div className="w-1/2 mr-2">
-                  <button
-                    className="btn btn-simple w-full"
-                    onClick={() =>
-                      signIn(null, {
-                        callbackUrl: "http://localhost:3000/Home",
-                      })
-                    }
-                  >
-                    Sign In
-                  </button>
-                </div>
-                <div className="w-1/2">
-                  <Link href="/Signup">
-                    <button className="btn btn-simple w-full">Sign Up</button>
-                  </Link>
-                </div>
-              </div> */}
           </div>
         </main>
 
@@ -85,7 +63,6 @@ export default function Index() {
           </a>
         </footer>
       </div>
-      {/* )} */}
     </>
   );
 }

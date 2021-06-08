@@ -1,10 +1,10 @@
-import React from 'react';
+import React from "react";
 
-const TYPE_MUTE_CAMERA = 'camera';
-const TYPE_MUTE_MIC = 'mute-mic';
-const TYPE_SCREEN = 'screen';
-const TYPE_LEAVE = 'leave';
-const TYPE_CHAT = 'chat';
+const TYPE_MUTE_CAMERA = "camera";
+const TYPE_MUTE_MIC = "mute-mic";
+const TYPE_SCREEN = "screen";
+const TYPE_LEAVE = "leave";
+const TYPE_CHAT = "chat";
 
 /**
  * Props:
@@ -13,7 +13,7 @@ const TYPE_CHAT = 'chat';
  */
 export default function Icon(props) {
   function getFillColor() {
-    return props.highlighted ? '#fb5554' : '#000000';
+    return props.highlighted ? "#fb5554" : "#000000";
   }
 
   function getPath() {

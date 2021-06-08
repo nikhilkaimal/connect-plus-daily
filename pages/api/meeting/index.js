@@ -10,6 +10,7 @@
  */
 async function createRoom(meetingName) {
   const url = "https://api.daily.co/v1/rooms";
+
   const options = {
     method: "POST",
     headers: {

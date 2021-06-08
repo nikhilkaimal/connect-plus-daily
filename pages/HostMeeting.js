@@ -1,46 +1,42 @@
-import { useSession, signIn, signOut } from "next-auth/client";
+import { useSession, signOut } from "next-auth/client";
 import { useRouter } from "next/router";
-import React, { useEffect, useState, useCallback } from "react";
-import Call from "./Call";
-import StartButton from "./StartButton";
+import { useState, useEffect, useCallback } from "react";
 import api from "./api/meeting";
-import Tray from "../components/Tray";
-import CallObjectContext from "../context/CallObjectContext";
-import { roomUrlFromPageUrl, pageUrlFromRoomUrl } from "../utils/urlUtils";
 import DailyIframe from "@daily-co/daily-js";
+import { roomUrlFromPageUrl, pageUrlFromRoomUrl } from "../utils/urlUtils";
 import { logDailyEvent } from "../utils/logUtils";
+import CallObjectContext from "../context/CallObjectContext";
+import Call from "./Call";
+import Tray from "../components/Tray";
+import StartButton from "./StartButton";
 import { UserCircleIcon } from "@heroicons/react/outline";
 import Link from "next/link";
 
 const STATE_IDLE = "STATE_IDLE";
 const STATE_CREATING = "STATE_CREATING";
 const STATE_JOINING = "STATE_JOINING";
-const STATE_JOINED = "STATE_JOINED";
-const STATE_LEAVING = "STATE_LEAVING";
 const STATE_ERROR = "STATE_ERROR";
+const STATE_LEAVING = "STATE_LEAVING";
+const STATE_JOINED = "STATE_JOINED";
 
 export default function HostMeeting() {
+  let [callbackUrl, setCallbackUrl] = useState("");
+  const [roomUrl, setRoomUrl] = useState(null);
   const [session, loading] = useSession();
   const router = useRouter();
-  const [appState, setAppState] = useState(STATE_IDLE);
-  const [roomUrl, setRoomUrl] = useState(null);
-  const [callObject, setCallObject] = useState(null);
-  const [meetingName, setMeetingName] = useState("");
   const [expandProfile, setExpandProfile] = useState(false);
-  let [callbackUrl, setCallbackUrl] = useState("");
+  const [appState, setAppState] = useState(STATE_IDLE);
+  const [meetingName, setMeetingName] = useState("");
+  const [callObject, setCallObject] = useState(null);
 
   useEffect(() => {
-    console.log("----------");
-    console.log("showCall", showCall);
-    console.log("roomUrl", roomUrl);
-    console.log("session", session);
-    console.log("loading", loading);
-    console.log("----------");
     if (process.env.phase === "local") setCallbackUrl("http://localhost:3000");
     else setCallbackUrl("https://connect-plus-daily.vercel.app");
+  }, [process.env.phase]);
 
-    // if (!showCall && roomUrl === null && session === null && !loading)
-    //   router.push("/");
+  useEffect(() => {
+    if (!showCall && roomUrl === null && session === null && !loading)
+      router.push("/");
   });
 
   function toggleProfile() {
@@ -54,12 +50,7 @@ export default function HostMeeting() {
     setAppState(STATE_CREATING);
     return api
       .createRoom(meetingName)
-      .then((room) => {
-        if (room.url !== undefined) {
-          // console.log("room.url", room.url);
-          return room.url;
-        }
-      })
+      .then((room) => room.url)
       .catch((error) => {
         console.log("Error creating room", error);
         setRoomUrl(null);

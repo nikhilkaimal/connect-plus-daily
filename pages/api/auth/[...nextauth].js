@@ -1,5 +1,5 @@
-import NextAuth from "next-auth";
 import Providers from "next-auth/providers";
+import NextAuth from "next-auth";
 
 const options = {
   site: process.env.NEXTAUTH_URL,
@@ -25,7 +25,6 @@ const options = {
     jwt: true,
     maxAge: 5 * 60,
   },
-  // pages: { signIn: "/auth/signin" },
   theme: "light",
 };
 
